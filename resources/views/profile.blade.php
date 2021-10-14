@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>My Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/01b4b6f929.js" crossorigin="anonymous"></script>
 </head>
@@ -20,7 +20,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{$data->name}}
+                    {{$user->name}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="profile">My Profile</a></li>
@@ -35,21 +35,39 @@
 
     <div class="container">
         <div class="row justify-content-center mt-4">
-            <div class="col-sm-4">
-                <h4 class="text-center">Welcome to Your Dashboard</h3>
+            <div class="col-sm-5">
+                <h4 class="text-center">My Profile</h3>
                 <hr>
-                {{-- <table class="table">
-                    <thead>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{$data->name}}</td>
-                            <td>{{$data->email}}</td>
-                        </tr>
-                    </tbody>
-                </table> --}}
+                <div class="profile-form-div p-4" style="background: #FFFCF7; border-radius: 10px; box-shadow: 0px 0px 10px #888888;">
+                    <form action="{{url('update-profile')}}" method="POST">
+
+                        {{-- Success alert if the user is saved sucessfully --}}
+                        @if(Session::has('success'))
+                        <div class="alert alert-success">{{Session::get('success')}}</div>
+                        @endif
+    
+                        {{-- Fail alert if the user is not saved successfully --}}
+                        @if(Session::has('fail'))
+                        <div class="alert alert-danger">{{Session::get('fail')}}</div>
+                        @endif
+    
+                        {{-- This is a security token in Laravel for security purposes: It must be added --}}
+                        @csrf
+                        
+                        <div class="form-group mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" value="{{$user->name ?? ''}}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" value="{{$user->email ?? ''}}">
+                            <span class="text-danger">@error('email') {{$message}} @enderror</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-success">Update</button>                    
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

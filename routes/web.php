@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\BackendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\Http\Controllers\CustomAuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Login function from CustomAuthController.php in controllers folder is called here
@@ -32,3 +33,7 @@ Route::get('/dashboard', [CustomAuthController::class, 'dashboard']);
 
 // Logout function from CustomAuthController.php in controllers folder is called here
 Route::get('/logout', [CustomAuthController::class, 'logout']);
+
+Route::get('/profile', [BackendController::class, 'profile']);
+
+Route::post('/update-profile', [BackendController::class, 'updateProfile']);
